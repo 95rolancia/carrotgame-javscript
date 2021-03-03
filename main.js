@@ -53,8 +53,6 @@ function startGame() {
 }
 
 function stopGame() {
-  gameBtnIcon.classList.remove("fa-stop");
-  gameBtnIcon.classList.add("fa-play");
   hideGameBtn();
   stopGameTimer();
   showPopUp();
