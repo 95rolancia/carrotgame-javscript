@@ -57,6 +57,8 @@ button {
   border-radius: 10px;
   background-color: whitesmoke;
   visibility: hidden;
+  user-select: none;
+  cursor: auto;
 }
 
 .game__score {
@@ -70,6 +72,8 @@ button {
   color: whitesmoke;
   background-color: red;
   visibility: hidden;
+  user-select: none;
+  cursor: auto;
 }
 
 .game__field {
@@ -109,4 +113,9 @@ button {
   display: block;
   font-size: 32px;
   color: white;
+}
+
+.carrot:hover,
+.bug:hover {
+  transform: scale(1.1);
 }
