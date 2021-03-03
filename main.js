@@ -13,6 +13,10 @@ const gameBtnIcon = document.querySelector(".game__button > .fas");
 const gameTimer = document.querySelector(".game__timer");
 const gameScore = document.querySelector(".game__score");
 
+const popup = document.querySelector(".pop-up");
+const popupText = document.querySelector(".pop-up__message");
+const popupRefresh = document.querySelector(".pop-up__refresh");
+
 let started = false;
 let score = 0;
 let timer = undefined;
@@ -51,12 +55,18 @@ function startGame() {
 function stopGame() {
   gameBtnIcon.classList.remove("fa-stop");
   gameBtnIcon.classList.add("fa-play");
+  hideGameBtn();
   stopGameTimer();
+  showPopUp();
 }
 
 function showStopBtn() {
   gameBtnIcon.classList.remove("fa-play");
   gameBtnIcon.classList.add("fa-stop");
+}
+
+function hideGameBtn() {
+  gameBtn.classList.add("invisible");
 }
 
 function showTimerAndScore() {
@@ -84,6 +94,10 @@ function updateTimerText(time) {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   gameTimer.textContent = `${minutes}:${seconds}`;
+}
+
+function showPopUp() {
+  popup.classList.remove("pop-up--hide");
 }
 
 function randomNumber(min, max) {
