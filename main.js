@@ -21,6 +21,24 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
+gameBtn.addEventListener("click", (e) => {
+  const target = e.target;
+  console.log(started);
+  if (target.nodeName === "I") {
+    if (started) {
+      stopGame();
+    } else {
+      startGame();
+    }
+  }
+});
+
+popupRefresh.addEventListener("click", () => {
+  startGame();
+  showGameBtn();
+  hidePopUp();
+});
+
 function createItem(item, number, imgPath) {
   for (let i = 0; i < number; i++) {
     let target = document.createElement("img");
@@ -33,19 +51,8 @@ function createItem(item, number, imgPath) {
   }
 }
 
-gameBtn.addEventListener("click", (e) => {
-  const target = e.target;
-  if (target.nodeName === "I") {
-    if (started) {
-      stopGame();
-    } else {
-      startGame();
-    }
-    started = !started;
-  }
-});
-
 function startGame() {
+  started = !started;
   initGame();
   showStopBtn();
   showTimerAndScore();
@@ -53,6 +60,7 @@ function startGame() {
 }
 
 function stopGame() {
+  started = !started;
   hideGameBtn();
   stopGameTimer();
   showPopUp();
@@ -61,6 +69,10 @@ function stopGame() {
 function showStopBtn() {
   gameBtnIcon.classList.remove("fa-play");
   gameBtnIcon.classList.add("fa-stop");
+}
+
+function showGameBtn() {
+  gameBtn.classList.remove("invisible");
 }
 
 function hideGameBtn() {
@@ -96,6 +108,10 @@ function updateTimerText(time) {
 
 function showPopUp() {
   popup.classList.remove("pop-up--hide");
+}
+
+function hidePopUp() {
+  popup.classList.add("pop-up--hide");
 }
 
 function randomNumber(min, max) {
