@@ -1,14 +1,11 @@
 "use strict";
 import Popup from "./popup.js";
+import Field from "./field.js";
+
 const ITEM_SIZE = 100;
 const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 const GAME_DURATION_SEC = 5;
-
-const gameField = document.querySelector(".game__field");
-const gameFieldRect = gameField.getBoundingClientRect();
-const gameFieldWidth = gameFieldRect.width;
-const gameFieldHeight = gameFieldRect.height;
 
 const gameBtn = document.querySelector(".game__button");
 const gameBtnIcon = document.querySelector(".game__button > .fas");
@@ -30,6 +27,27 @@ gameFinishBanner.setClickListener(() => {
   startGame();
 });
 
+const gameField = new Field(CARROT_COUNT, BUG_COUNT, ITEM_SIZE);
+gameField.setClickListener(() => onItemClick);
+
+function onItemClick(item) {
+  if (!started) {
+    return;
+  }
+
+  if (item === "carrot") {
+    carrotSound.play();
+    score++;
+    updateGameScore();
+    if (score === CARROT_COUNT) {
+      finishGame(true);
+    }
+  } else if (item === "bug") {
+    bugSound.play();
+    finishGame(false);
+  }
+}
+
 gameBtn.addEventListener("click", (e) => {
   const target = e.target;
   if (target.nodeName === "I") {
@@ -41,29 +59,30 @@ gameBtn.addEventListener("click", (e) => {
   }
 });
 
-gameField.addEventListener("click", (e) => {
-  if (!started) {
-    return;
-  }
-  const target = e.target;
-  // target.matches('.carrot')
-  if (target.nodeName !== "IMG") {
-    return;
-  }
+// gameField.addEventListener("click", (e) => {
+//   // if (!started) {
+//   //   return;
+//   // }
+//   // const target = e.target;
+//   // // target.matches('.carrot')
+//   // if (target.nodeName !== "IMG") {
+//   //   return;
+//   // }
 
-  if (target.classList.contains("carrot")) {
-    carrotSound.play();
-    target.remove();
-    score++;
-    updateGameScore();
-    if (score === CARROT_COUNT) {
-      finishGame(true);
-    }
-  } else if (target.classList.contains("bug")) {
-    bugSound.play();
-    finishGame(false);
-  }
-});
+//   // if (target.classList.contains("carrot")) {
+//   //   carrotSound.play();
+//   //   target.remove();
+//   //   score++;
+//   //   updateGameScore();
+//   //   if (score === CARROT_COUNT) {
+//   //     finishGame(true);
+//   //   }
+//   // } else if (target.classList.contains("bug")) {
+//   //   bugSound.play();
+//   //   finishGame(false);
+//   // }
+//   onItemClick(e);
+// });
 
 function startGame() {
   started = true;
@@ -129,26 +148,8 @@ function updateGameScore() {
   gameScore.textContent = CARROT_COUNT - score;
 }
 
-function randomNumber(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
 function initGame() {
   score = 0;
-  gameField.innerHTML = "";
   gameScore.textContent = CARROT_COUNT;
-  createItem("carrot", CARROT_COUNT, "img/carrot.png");
-  createItem("bug", BUG_COUNT, "img/bug.png");
-}
-
-function createItem(item, number, imgPath) {
-  for (let i = 0; i < number; i++) {
-    let target = document.createElement("img");
-    target.setAttribute("class", item);
-    target.setAttribute("src", imgPath);
-    target.style.position = "absolute";
-    target.style.left = `${randomNumber(0, gameFieldWidth - ITEM_SIZE)}px`;
-    target.style.top = `${randomNumber(0, gameFieldHeight - ITEM_SIZE)}px`;
-    gameField.appendChild(target);
-  }
+  gameField.init();
 }
