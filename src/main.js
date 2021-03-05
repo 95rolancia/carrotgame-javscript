@@ -1,6 +1,7 @@
 "use strict";
 import Popup from "./popup.js";
 import Field from "./field.js";
+import * as sound from "./sound.js";
 
 const ITEM_SIZE = 100;
 const CARROT_COUNT = 5;
@@ -11,12 +12,6 @@ const gameBtn = document.querySelector(".game__button");
 const gameBtnIcon = document.querySelector(".game__button > .fas");
 const gameTimer = document.querySelector(".game__timer");
 const gameScore = document.querySelector(".game__score");
-
-const carrotSound = new Audio("sound/carrot_pull.mp3");
-const bugSound = new Audio("sound/bug_pull.mp3");
-// const carrotSound = new Audio("sound/carrot_pull.mp3");
-// const carrotSound = new Audio("sound/carrot_pull.mp3");
-// const carrotSound = new Audio("sound/carrot_pull.mp3");
 
 let started = false;
 let score = 0;
@@ -59,37 +54,13 @@ gameBtn.addEventListener("click", (e) => {
   }
 });
 
-// gameField.addEventListener("click", (e) => {
-//   // if (!started) {
-//   //   return;
-//   // }
-//   // const target = e.target;
-//   // // target.matches('.carrot')
-//   // if (target.nodeName !== "IMG") {
-//   //   return;
-//   // }
-
-//   // if (target.classList.contains("carrot")) {
-//   //   carrotSound.play();
-//   //   target.remove();
-//   //   score++;
-//   //   updateGameScore();
-//   //   if (score === CARROT_COUNT) {
-//   //     finishGame(true);
-//   //   }
-//   // } else if (target.classList.contains("bug")) {
-//   //   bugSound.play();
-//   //   finishGame(false);
-//   // }
-//   onItemClick(e);
-// });
-
 function startGame() {
   started = true;
   initGame();
   showStopBtn();
   showTimerAndScore();
   startGameTimer();
+  sound.playBgm();
 }
 
 function stopGame() {
@@ -97,6 +68,8 @@ function stopGame() {
   hideGameBtn();
   stopGameTimer();
   gameFinishBanner.show();
+  sound.playLose();
+  sound.stopBgm();
 }
 
 function finishGame(win) {
@@ -104,6 +77,7 @@ function finishGame(win) {
   hideGameBtn();
   gameFinishBanner.show();
   stopGameTimer();
+  sound.stopBgm();
 }
 
 function showStopBtn() {

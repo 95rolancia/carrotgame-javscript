@@ -1,4 +1,5 @@
 "use strict";
+import * as sound from "./sound.js";
 export default class Field {
   constructor(carrotCount, bugCount, itemSize) {
     this.carrotCount = carrotCount;
@@ -47,8 +48,10 @@ export default class Field {
 
     if (target.classList.contains("carrot")) {
       target.remove();
+      sound.playCarrot();
       this.onItemClick && this.onItemClick("carrot");
     } else if (target.classList.contains("bug")) {
+      sound.playBug();
       this.onItemClick && this.onItemClick("bug");
     }
   }
