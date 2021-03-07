@@ -1,8 +1,14 @@
 import * as sound from "./sound.js";
 import Field from "./field.js";
 
+export const Reason = Object.freeze({
+  win: "win",
+  lose: "lose",
+  cancel: "cancel",
+});
+
 // Builder Pattern
-export default class GameBuilder {
+export class GameBuilder {
   withGameDuration(duration) {
     this.gameDuration = duration;
     return this;
@@ -65,23 +71,27 @@ class Game {
     sound.playBgm();
   }
 
-  stop() {
+  stop(reason) {
     this.started = false;
     this.hideGameBtn();
     this.stopGameTimer();
-    // this.gameFinishBanner.show();
-    sound.playLose();
     sound.stopBgm();
-    this.onGameStop && this.onGameStop("cancel");
-  }
 
-  finish(win) {
-    this.started = false;
-    this.hideGameBtn();
-    // this.gameFinishBanner.show();
-    this.stopGameTimer();
-    sound.stopBgm();
-    this.onGameStop && this.onGameStop(win ? "win" : "lose");
+    switch (reason) {
+      case Reason.cancel:
+        sound.playLose();
+        break;
+      case Reason.win:
+        sound.playWin();
+        break;
+      case Reason.lose:
+        sound.playLose();
+        break;
+      default:
+        throw new Error("not valid reason");
+    }
+
+    this.onGameStop && this.onGameStop(reason);
   }
 
   onItemClick = (item) => {
