@@ -40,21 +40,21 @@ export default class Field {
     }
   }
 
-  onClick(e) {
+  onClick = (e) => {
     const target = e.target;
     if (target.nodeName !== "IMG") {
       return;
     }
 
     if (target.classList.contains("carrot")) {
-      target.remove();
       sound.playCarrot();
+      target.remove();
       this.onItemClick && this.onItemClick("carrot");
     } else if (target.classList.contains("bug")) {
       sound.playBug();
       this.onItemClick && this.onItemClick("bug");
     }
-  }
+  };
 }
 
 function randomNumber(min, max) {

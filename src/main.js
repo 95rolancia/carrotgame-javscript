@@ -23,7 +23,7 @@ gameFinishBanner.setClickListener(() => {
 });
 
 const gameField = new Field(CARROT_COUNT, BUG_COUNT, ITEM_SIZE);
-gameField.setClickListener(() => onItemClick);
+gameField.setClickListener(onItemClick);
 
 function onItemClick(item) {
   if (!started) {
@@ -31,14 +31,12 @@ function onItemClick(item) {
   }
 
   if (item === "carrot") {
-    carrotSound.play();
     score++;
     updateGameScore();
     if (score === CARROT_COUNT) {
       finishGame(true);
     }
   } else if (item === "bug") {
-    bugSound.play();
     finishGame(false);
   }
 }
