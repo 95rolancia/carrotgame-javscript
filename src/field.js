@@ -1,10 +1,11 @@
 "use strict";
 import * as sound from "./sound.js";
+
+const ITEM_SIZE = 100;
 export default class Field {
-  constructor(carrotCount, bugCount, itemSize) {
+  constructor(carrotCount, bugCount) {
     this.carrotCount = carrotCount;
     this.bugCount = bugCount;
-    this.itemSize = itemSize;
     this.gameField = document.querySelector(".game__field");
     this.gameFieldRect = this.gameField.getBoundingClientRect();
     this.gameFieldWidth = this.gameFieldRect.width;
@@ -30,11 +31,11 @@ export default class Field {
       target.style.position = "absolute";
       target.style.left = `${randomNumber(
         0,
-        this.gameFieldWidth - this.itemSize
+        this.gameFieldWidth - ITEM_SIZE
       )}px`;
       target.style.top = `${randomNumber(
         0,
-        this.gameFieldHeight - this.itemSize
+        this.gameFieldHeight - ITEM_SIZE
       )}px`;
       this.gameField.appendChild(target);
     }
