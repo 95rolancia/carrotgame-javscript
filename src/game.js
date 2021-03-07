@@ -1,4 +1,3 @@
-import * as sound from "./sound.js";
 import Field from "./field.js";
 
 export const Reason = Object.freeze({
@@ -43,7 +42,7 @@ class Game {
       const target = e.target;
       if (target.nodeName === "I") {
         if (this.started) {
-          this.stop();
+          this.stop(Reason.cancel);
         } else {
           this.start();
         }
@@ -75,30 +74,7 @@ class Game {
     this.started = false;
     this.hideGameBtn();
     this.stopGameTimer();
-    sound.stopBgm();
-
-    switch (reason) {
-      case Reason.cancel:
-        sound.playLose();
-        break;
-      case Reason.win:
-        sound.playWin();
-        break;
-      case Reason.lose:
-        sound.playLose();
-        break;
-      default:
-        throw new Error("not valid reason");
-    }
     this.onGameStop && this.onGameStop(reason);
-  }
-
-  finish(win) {
-    this.started = false;
-    this.hideGameBtn();
-    this.stopGameTimer();
-    sound.stopBgm();
-    this.onGameStop && this.onGameStop(win ? Reason.win : Reason.lose);
   }
 
   onItemClick = (item) => {
@@ -110,10 +86,10 @@ class Game {
       this.score++;
       this.updateGameScore();
       if (this.score === this.carrotCount) {
-        this.finish(true);
+        this.stop(Reason.win);
       }
     } else if (item === "bug") {
-      this.finish(false);
+      this.stop(Reason.lose);
     }
   };
 
@@ -138,7 +114,7 @@ class Game {
     this.timer = setInterval(() => {
       if (remainingTimeSec <= 0) {
         clearInterval(this.timer);
-        this.finish(false);
+        this.stop(Reason.lose);
         return;
       }
       this.updateTimerText(--remainingTimeSec);
