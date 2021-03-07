@@ -1,4 +1,5 @@
 import { Field, ItemType } from "./field.js";
+import * as sound from "./sound.js";
 export const Reason = Object.freeze({
   win: "win",
   lose: "lose",
