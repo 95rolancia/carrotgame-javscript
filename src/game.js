@@ -90,8 +90,15 @@ class Game {
       default:
         throw new Error("not valid reason");
     }
-
     this.onGameStop && this.onGameStop(reason);
+  }
+
+  finish(win) {
+    this.started = false;
+    this.hideGameBtn();
+    this.stopGameTimer();
+    sound.stopBgm();
+    this.onGameStop && this.onGameStop(win ? Reason.win : Reason.lose);
   }
 
   onItemClick = (item) => {
