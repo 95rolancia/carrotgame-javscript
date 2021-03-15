@@ -14,10 +14,9 @@
 - CSS
 - JavaScript
 
-## 기능
-
--
+## 설명
+벌레를 피해 당근을 눌러 채집하는 게임!
 
 ## 데모
 
--
+- https://95rolancia.github.io/carrotgame-javscript/.
