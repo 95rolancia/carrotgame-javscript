@@ -19,4 +19,4 @@
 
 ## 데모
 
-- https://95rolancia.github.io/carrotgame-javscript/.
+- https://95rolancia.github.io/carrotgame-javscript
